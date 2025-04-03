@@ -299,10 +299,7 @@ h2::after {
 }
 
 .digital-time {
-    position: absolute;
-    top: 67%;
-    left: 50%;
-    transform: translateX(-50%);
+    position: relative;
     font-family: 'Orbitron', sans-serif;
     font-size: 0.9rem;
     font-weight: bold;
@@ -310,11 +307,14 @@ h2::after {
     background-color: rgba(13, 12, 34, 0.7);
     padding: 3px 10px;
     border-radius: 20px;
-    z-index: 20;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
     letter-spacing: 1px;
     border: 1px solid rgba(255, 255, 255, 0.05);
     transition: all 0.3s ease;
+    margin: 10px auto 5px;
+    display: block;
+    width: fit-content;
+    text-align: center;
 }
 
 .clock::before {

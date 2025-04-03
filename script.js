@@ -50,10 +50,10 @@ function updateClock(time, clockId) {
     const minutes = time.getMinutes() + (seconds / 60);
     const hours = (time.getHours() % 12) + (minutes / 60);
     
-    // Calculate rotations with 90 degree offset (12 o'clock is at 90 degrees)
-    const secondsDegrees = (seconds / 60) * 360 + 90;
-    const minutesDegrees = (minutes / 60) * 360 + 90;
-    const hoursDegrees = (hours / 12) * 360 + 90;
+    // Calculate rotations without the 90 degree offset
+    const secondsDegrees = (seconds / 60) * 360;
+    const minutesDegrees = (minutes / 60) * 360;
+    const hoursDegrees = (hours / 12) * 360;
     
     const clockSelector = clockId === 'local' ? '.local-clock' : `.${clockId}-clock`;
     
@@ -68,8 +68,9 @@ function updateClock(time, clockId) {
     const displaySeconds = time.getSeconds().toString().padStart(2, '0');
     const timeString = `${displayHours}:${displayMinutes}:${displaySeconds}`;
     
-    // Update digital time display
-    document.querySelector(`${clockSelector} .digital-time`).textContent = timeString;
+    // Update digital time display - update selector to find adjacent element
+    const clockWrapper = document.querySelector(`${clockSelector}`).parentElement;
+    clockWrapper.querySelector('.digital-time').textContent = timeString;
 }
 
 // Add a small visual ticking effect to the second hands
