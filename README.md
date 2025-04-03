@@ -1,1 +1,1 @@
-A simple analog clock
+Simple website with analog clock
