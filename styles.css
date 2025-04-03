@@ -149,14 +149,6 @@ h2::after {
     transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.local-clock:hover {
-    transform: translateY(-10px) rotateX(10deg) rotateY(10deg);
-    box-shadow: 
-        0 15px 35px rgba(30, 144, 255, 0.2),
-        0 10px 20px rgba(0, 0, 0, 0.3),
-        inset 0 0 40px rgba(13, 12, 34, 0.7);
-}
-
 .local-clock .number {
     font-size: 1rem;
     color: rgba(255, 255, 255, 0.8);
@@ -253,14 +245,6 @@ h2::after {
     perspective: 1000px;
 }
 
-.clock:hover {
-    transform: translateY(-10px) rotateX(10deg) rotateY(10deg);
-    box-shadow: 
-        0 15px 35px rgba(0, 0, 0, 0.3),
-        0 5px 15px rgba(0, 0, 0, 0.1),
-        inset 0 0 40px rgba(13, 12, 34, 0.7);
-}
-
 .clock-wrapper .timezone {
     font-size: 0.75rem;
     color: rgba(255, 255, 255, 0.6);
@@ -333,11 +317,6 @@ h2::after {
     transition: all 0.3s ease;
 }
 
-.clock:hover .digital-time {
-    transform: translateX(-50%) scale(1.1);
-    box-shadow: 0 5px 20px rgba(233, 69, 96, 0.3);
-}
-
 .clock::before {
     content: '';
     position: absolute;
@@ -356,18 +335,12 @@ h2::after {
 .london-clock .digital-time {
     border-color: rgba(220, 20, 60, 0.3);
 }
-.london-clock:hover {
-    box-shadow: 0 15px 35px rgba(220, 20, 60, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
-}
 
 .newyork-clock {
     border-color: rgba(30, 144, 255, 0.3); /* Dodger Blue */
 }
 .newyork-clock .digital-time {
     border-color: rgba(30, 144, 255, 0.3);
-}
-.newyork-clock:hover {
-    box-shadow: 0 15px 35px rgba(30, 144, 255, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .sanfrancisco-clock {
@@ -376,18 +349,12 @@ h2::after {
 .sanfrancisco-clock .digital-time {
     border-color: rgba(255, 165, 0, 0.3);
 }
-.sanfrancisco-clock:hover {
-    box-shadow: 0 15px 35px rgba(255, 165, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
-}
 
 .tokyo-clock {
     border-color: rgba(255, 45, 85, 0.3); /* Pink */
 }
 .tokyo-clock .digital-time {
     border-color: rgba(255, 45, 85, 0.3);
-}
-.tokyo-clock:hover {
-    box-shadow: 0 15px 35px rgba(255, 45, 85, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .beijing-clock {
@@ -396,18 +363,12 @@ h2::after {
 .beijing-clock .digital-time {
     border-color: rgba(255, 215, 0, 0.3);
 }
-.beijing-clock:hover {
-    box-shadow: 0 15px 35px rgba(255, 215, 0, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
-}
 
 .newdelhi-clock {
     border-color: rgba(46, 204, 113, 0.3); /* Emerald */
 }
 .newdelhi-clock .digital-time {
     border-color: rgba(46, 204, 113, 0.3);
-}
-.newdelhi-clock:hover {
-    box-shadow: 0 15px 35px rgba(46, 204, 113, 0.2), 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Add subtle ticks on the clock face */

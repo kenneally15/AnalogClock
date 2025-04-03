@@ -14,7 +14,8 @@ let transitionsActive = true;
 // Set smooth transitions initially
 function initializeTransitions() {
     document.querySelectorAll('.second-hand').forEach(hand => {
-        hand.style.transition = 'transform 0.1s cubic-bezier(0.4, 2.8, 0.3, 0.8)';
+        // Remove transition for second hand to allow continuous movement
+        hand.style.transition = 'none';
     });
     
     document.querySelectorAll('.minute-hand, .hour-hand').forEach(hand => {
@@ -24,35 +25,8 @@ function initializeTransitions() {
 
 // Fix for transition issue at second 0/60
 function handleSecondTransition() {
-    document.querySelectorAll('.second-hand').forEach(secondHand => {
-        secondHand.addEventListener('transitionend', () => {
-            // Get current rotation
-            const computedStyle = window.getComputedStyle(secondHand);
-            const transform = computedStyle.getPropertyValue('transform');
-            const matrix = transform.match(/^matrix\((.+)\)$/);
-            
-            if (matrix) {
-                const values = matrix[1].split(', ');
-                const a = values[0];
-                const b = values[1];
-                const angle = Math.round(Math.atan2(b, a) * (180/Math.PI));
-                
-                // If we're at or near 90 degrees (which is the 0/60 second position with our +90 offset)
-                if (angle === 90 || angle === -270) {
-                    // Temporarily remove transition
-                    secondHand.style.transition = 'none';
-                    
-                    // Force a reflow
-                    secondHand.offsetHeight;
-                    
-                    // Set transition back after a small delay
-                    setTimeout(() => {
-                        secondHand.style.transition = 'transform 0.1s cubic-bezier(0.4, 2.8, 0.3, 0.8)';
-                    }, 50);
-                }
-            }
-        });
-    });
+    // This function is no longer needed for the second hand since we're using continuous motion
+    // We keep it empty to avoid breaking existing code references
 }
 
 function updateClocks() {
@@ -100,16 +74,7 @@ function updateClock(time, clockId) {
 
 // Add a small visual ticking effect to the second hands
 function addTickEffect() {
-    const secondHands = document.querySelectorAll('.second-hand');
-    
-    secondHands.forEach(hand => {
-        hand.addEventListener('transitionstart', () => {
-            hand.style.transform += ' scale(1.05)';
-            setTimeout(() => {
-                hand.style.transform = hand.style.transform.replace(' scale(1.05)', '');
-            }, 50);
-        });
-    });
+    // Remove ticking effect for smooth continuous motion
 }
 
 // Setup and start the clocks
@@ -117,14 +82,11 @@ function initializeClocks() {
     // Set initial transitions
     initializeTransitions();
     
-    // Handle transition edge case
+    // Handle transition edge case for minute and hour hands
     handleSecondTransition();
     
-    // Add tick effect
-    addTickEffect();
-    
-    // Update clocks every 1/10 second for smoother motion
-    setInterval(updateClocks, 100);
+    // Update clocks frequently for smooth second hand motion
+    setInterval(updateClocks, 16); // ~60fps for smooth animation
     
     // Initial call to set correct positions
     updateClocks();
