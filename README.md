@@ -1,1 +1,1 @@
-Website with local and global city times   
+Website with local system time and global city time zones 
