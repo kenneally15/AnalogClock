@@ -1,1 +1,1 @@
-Simple website with analog clock
+Website with local and global city times   
