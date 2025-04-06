@@ -36,8 +36,7 @@ body {
 
 .main-container {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
     max-width: 1400px;
     width: 95%;
     margin: 2rem auto;
@@ -243,6 +242,16 @@ h2::after {
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform-style: preserve-3d;
     perspective: 1000px;
+}
+
+/* Add a highlight effect for clocks */
+.highlight-clock {
+    transform: scale(1.1);
+    box-shadow: 
+        0 0 30px rgba(233, 69, 96, 0.5),
+        0 0 60px rgba(233, 69, 96, 0.2),
+        inset 0 0 40px rgba(13, 12, 34, 0.7);
+    z-index: 50;
 }
 
 .clock-wrapper .timezone {
@@ -506,5 +515,149 @@ h2::after {
     100% {
         transform: translateY(-1000px) rotate(720deg);
         opacity: 0;
+    }
+}
+
+/* World Map Styles */
+.map-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(13, 12, 34, 0.3);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.world-map {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.map-marker {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: #e94560;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(233, 69, 96, 0.7);
+    z-index: 5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(233, 69, 96, 0.6);
+    opacity: 0;
+    animation: pulse 2s infinite;
+    z-index: 4;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    70% {
+        transform: scale(2);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.marker-time, .marker-label {
+    position: absolute;
+    background: rgba(13, 12, 34, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.marker-time {
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', sans-serif;
+    color: #e94560;
+    font-weight: bold;
+    letter-spacing: 1px;
+    z-index: 10;
+}
+
+.marker-label {
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+}
+
+/* City marker positions */
+.london-marker {
+    top: 25%;
+    left: 45%;
+}
+
+.newyork-marker {
+    top: 30%;
+    left: 25%;
+}
+
+.sanfrancisco-marker {
+    top: 32%;
+    left: 15%;
+}
+
+.tokyo-marker {
+    top: 32%;
+    left: 82%;
+}
+
+.beijing-marker {
+    top: 32%;
+    left: 75%;
+}
+
+.newdelhi-marker {
+    top: 40%;
+    left: 65%;
+}
+
+/* Responsive Map Styles */
+@media (max-width: 768px) {
+    .world-map {
+        height: 300px;
+    }
+    
+    .marker-time, .marker-label {
+        font-size: 0.6rem;
+        padding: 3px 6px;
+    }
+}
+
+@media (max-width: 576px) {
+    .world-map {
+        height: 250px;
     }
 } 
