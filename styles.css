@@ -615,33 +615,33 @@ h2::after {
 
 /* City marker positions */
 .london-marker {
-    top: 25%;
-    left: 45%;
+    top: 51.5074%;
+    left: 45.5%;
 }
 
 .newyork-marker {
-    top: 30%;
-    left: 25%;
+    top: 40.7128%;
+    left: 25.5%;
 }
 
 .sanfrancisco-marker {
-    top: 32%;
-    left: 15%;
+    top: 37.7749%;
+    left: 15.5%;
 }
 
 .tokyo-marker {
-    top: 32%;
-    left: 82%;
+    top: 35.6762%;
+    left: 82.5%;
 }
 
 .beijing-marker {
-    top: 32%;
-    left: 75%;
+    top: 39.9042%;
+    left: 75.5%;
 }
 
 .newdelhi-marker {
-    top: 40%;
-    left: 65%;
+    top: 28.6139%;
+    left: 65.5%;
 }
 
 /* Responsive Map Styles */
