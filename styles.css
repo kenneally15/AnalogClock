@@ -518,32 +518,146 @@ h2::after {
     }
 }
 
-/* Remove all map-related styles */
-.map-container,
-.world-map,
-.map-marker,
-.pulse,
-.marker-time,
-.marker-label,
-.london-marker,
-.newyork-marker,
-.sanfrancisco-marker,
-.tokyo-marker,
-.beijing-marker,
-.newdelhi-marker {
-    display: none;
+/* World Map Styles */
+.map-container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(13, 12, 34, 0.3);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive styles */
-@media (max-width: 1200px) {
-    .main-container {
-        flex-direction: column;
-        align-items: center;
-        gap: 2rem;
+.world-map {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Equirectangular_projection_SW.jpg/1280px-Equirectangular_projection_SW.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.5);
+}
+
+.map-marker {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: #e94560;
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(233, 69, 96, 0.7);
+    z-index: 5;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pulse {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: rgba(233, 69, 96, 0.6);
+    opacity: 0;
+    animation: pulse 2s infinite;
+    z-index: 4;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    70% {
+        transform: scale(2);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0;
+    }
+}
+
+.marker-time, .marker-label {
+    position: absolute;
+    background: rgba(13, 12, 34, 0.8);
+    color: white;
+    padding: 4px 8px;
+    border-radius: 10px;
+    font-size: 0.7rem;
+    white-space: nowrap;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.marker-time {
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Orbitron', sans-serif;
+    color: #e94560;
+    font-weight: bold;
+    letter-spacing: 1px;
+    z-index: 10;
+}
+
+.marker-label {
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+}
+
+/* City marker positions for Equirectangular projection */
+.london-marker {
+    top: 51.5074%;
+    left: 48%;
+}
+
+.newyork-marker {
+    top: 40.7128%;
+    left: 28%;
+}
+
+.sanfrancisco-marker {
+    top: 37.7749%;
+    left: 18%;
+}
+
+.tokyo-marker {
+    top: 35.6762%;
+    left: 85%;
+}
+
+.beijing-marker {
+    top: 39.9042%;
+    left: 78%;
+}
+
+.newdelhi-marker {
+    top: 28.6139%;
+    left: 68%;
+}
+
+/* Responsive Map Styles */
+@media (max-width: 768px) {
+    .world-map {
+        height: 300px;
     }
     
-    .local-clock-container,
-    .world-clocks-container {
-        width: 100%;
+    .marker-time, .marker-label {
+        font-size: 0.6rem;
+        padding: 3px 6px;
+    }
+}
+
+@media (max-width: 576px) {
+    .world-map {
+        height: 250px;
     }
 } 

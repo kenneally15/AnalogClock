@@ -143,4 +143,46 @@ function setupMapMarkerInteractions() {
 }
 
 // Start when the page is fully loaded
-window.addEventListener('load', initializeClocks); 
+window.addEventListener('load', initializeClocks);
+
+// Update map marker times
+function updateMapMarkers() {
+    const cities = ['london', 'newyork', 'sanfrancisco', 'tokyo', 'beijing', 'newdelhi'];
+    cities.forEach(city => {
+        const marker = document.querySelector(`.${city}-marker`);
+        if (marker) {
+            const timeElement = marker.querySelector('.marker-time');
+            const time = getCityTime(city);
+            timeElement.textContent = time;
+        }
+    });
+}
+
+// Add hover effects for map markers
+function setupMapMarkerInteractions() {
+    const markers = document.querySelectorAll('.map-marker');
+    markers.forEach(marker => {
+        const city = marker.dataset.city;
+        
+        marker.addEventListener('mouseenter', () => {
+            const clock = document.querySelector(`.${city}-clock`);
+            if (clock) {
+                clock.classList.add('highlight-clock');
+                clock.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        });
+        
+        marker.addEventListener('mouseleave', () => {
+            const clock = document.querySelector(`.${city}-clock`);
+            if (clock) {
+                clock.classList.remove('highlight-clock');
+            }
+        });
+    });
+}
+
+// Initialize map functionality
+setupMapMarkerInteractions();
+
+// Update map markers every second
+setInterval(updateMapMarkers, 1000); 
