@@ -616,7 +616,7 @@ h2::after {
 /* City marker positions for Equirectangular projection */
 .london-marker {
     top: 51.5074%;
-    left: 48%;
+    left: 0%;
 }
 
 .newyork-marker {
