@@ -41,24 +41,6 @@ function updateClocks() {
         const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
         const cityTime = new Date(utc + (3600000 * offset));
         updateClock(cityTime, city);
-        
-        // Update map marker times
-        updateMapMarker(cityTime, city);
-    }
-}
-
-// Add new function to update map markers
-function updateMapMarker(time, cityId) {
-    // Format time for map marker display
-    const displayHours = time.getHours().toString().padStart(2, '0');
-    const displayMinutes = time.getMinutes().toString().padStart(2, '0');
-    const displaySeconds = time.getSeconds().toString().padStart(2, '0');
-    const timeString = `${displayHours}:${displayMinutes}:${displaySeconds}`;
-    
-    // Find the marker for this city
-    const marker = document.querySelector(`.${cityId}-marker .marker-time`);
-    if (marker) {
-        marker.textContent = timeString;
     }
 }
 
@@ -109,80 +91,7 @@ function initializeClocks() {
     
     // Initial call to set correct positions
     updateClocks();
-    
-    // Add interactive features to map markers
-    setupMapMarkerInteractions();
-}
-
-// Add map marker interactions
-function setupMapMarkerInteractions() {
-    const mapMarkers = document.querySelectorAll('.map-marker');
-    
-    mapMarkers.forEach(marker => {
-        const city = marker.getAttribute('data-city');
-        
-        marker.addEventListener('mouseenter', () => {
-            // Highlight the corresponding clock
-            const clockElement = document.querySelector(`.${city}-clock`);
-            if (clockElement) {
-                clockElement.classList.add('highlight-clock');
-                
-                // Scroll to the clock if it's out of view
-                clockElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-        
-        marker.addEventListener('mouseleave', () => {
-            // Remove highlight
-            const clockElement = document.querySelector(`.${city}-clock`);
-            if (clockElement) {
-                clockElement.classList.remove('highlight-clock');
-            }
-        });
-    });
 }
 
 // Start when the page is fully loaded
-window.addEventListener('load', initializeClocks);
-
-// Update map marker times
-function updateMapMarkers() {
-    const cities = ['london', 'newyork', 'sanfrancisco', 'tokyo', 'beijing', 'newdelhi'];
-    cities.forEach(city => {
-        const marker = document.querySelector(`.${city}-marker`);
-        if (marker) {
-            const timeElement = marker.querySelector('.marker-time');
-            const time = getCityTime(city);
-            timeElement.textContent = time;
-        }
-    });
-}
-
-// Add hover effects for map markers
-function setupMapMarkerInteractions() {
-    const markers = document.querySelectorAll('.map-marker');
-    markers.forEach(marker => {
-        const city = marker.dataset.city;
-        
-        marker.addEventListener('mouseenter', () => {
-            const clock = document.querySelector(`.${city}-clock`);
-            if (clock) {
-                clock.classList.add('highlight-clock');
-                clock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-        
-        marker.addEventListener('mouseleave', () => {
-            const clock = document.querySelector(`.${city}-clock`);
-            if (clock) {
-                clock.classList.remove('highlight-clock');
-            }
-        });
-    });
-}
-
-// Initialize map functionality
-setupMapMarkerInteractions();
-
-// Update map markers every second
-setInterval(updateMapMarkers, 1000); 
+window.addEventListener('load', initializeClocks); 
