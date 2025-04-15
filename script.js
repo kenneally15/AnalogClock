@@ -186,47 +186,64 @@ document.getElementById('cityDropdown').addEventListener('change', function(e) {
 
 // Update addClock function to handle timezone parameter
 function addClock(cityName, timezone) {
-    const clockContainer = document.createElement('div');
-    clockContainer.className = 'clock-container';
-    clockContainer.innerHTML = `
-        <div class="clock">
-            <div class="clock-face">
-                <div class="hand hour-hand"></div>
-                <div class="hand minute-hand"></div>
-                <div class="hand second-hand"></div>
-                <div class="center-dot"></div>
-            </div>
+    const clockWrapper = document.createElement('div');
+    clockWrapper.className = 'clock-wrapper';
+    
+    // Create a sanitized version of the city name for CSS classes
+    const sanitizedCityName = cityName.toLowerCase().replace(/\s+/g, '');
+    
+    clockWrapper.innerHTML = `
+        <h2>${cityName}</h2>
+        <div class="clock ${sanitizedCityName}-clock">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-dot"></div>
+            <div class="number number1">1</div>
+            <div class="number number2">2</div>
+            <div class="number number3">3</div>
+            <div class="number number4">4</div>
+            <div class="number number5">5</div>
+            <div class="number number6">6</div>
+            <div class="number number7">7</div>
+            <div class="number number8">8</div>
+            <div class="number number9">9</div>
+            <div class="number number10">10</div>
+            <div class="number number11">11</div>
+            <div class="number number12">12</div>
         </div>
-        <div class="digital-time"></div>
-        <div class="city-name">${cityName}</div>
+        <div class="digital-time">00:00:00</div>
+        <div class="timezone">GMT${timezone >= 0 ? '+' : ''}${timezone}</div>
         <button class="remove-clock" onclick="this.parentElement.remove()">×</button>
     `;
     
-    document.getElementById('world-clocks-container').appendChild(clockContainer);
-    
     // Store the timezone for this clock
-    clockContainer.dataset.timezone = timezone;
+    clockWrapper.dataset.timezone = timezone;
+    
+    // Add the new clock to the clocks grid
+    document.querySelector('.clocks-grid').appendChild(clockWrapper);
     
     // Update the clock immediately
-    updateClock(clockContainer);
+    updateClock(clockWrapper);
 }
 
 // Update updateClock function to handle timezone
-function updateClock(clockContainer) {
+function updateClock(clockWrapper) {
     const now = new Date();
-    const timezone = clockContainer.dataset.timezone;
+    const timezone = clockWrapper.dataset.timezone;
     
-    // Convert to the selected timezone
-    const options = { timeZone: timezone };
-    const timeString = now.toLocaleTimeString('en-US', options);
-    const dateString = now.toLocaleDateString('en-US', { ...options, weekday: 'long' });
+    // Calculate the time for the selected timezone
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const cityTime = new Date(utc + (3600000 * timezone));
     
-    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    const hours = cityTime.getHours();
+    const minutes = cityTime.getMinutes();
+    const seconds = cityTime.getSeconds();
     
-    const hourHand = clockContainer.querySelector('.hour-hand');
-    const minuteHand = clockContainer.querySelector('.minute-hand');
-    const secondHand = clockContainer.querySelector('.second-hand');
-    const digitalTime = clockContainer.querySelector('.digital-time');
+    const hourHand = clockWrapper.querySelector('.hour-hand');
+    const minuteHand = clockWrapper.querySelector('.minute-hand');
+    const secondHand = clockWrapper.querySelector('.second-hand');
+    const digitalTime = clockWrapper.querySelector('.digital-time');
     
     const hourDegrees = ((hours % 12) + minutes / 60) * 30;
     const minuteDegrees = minutes * 6;
@@ -236,5 +253,11 @@ function updateClock(clockContainer) {
     minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
     secondHand.style.transform = `rotate(${secondDegrees}deg)`;
     
-    digitalTime.textContent = `${timeString} ${hours >= 12 ? 'PM' : 'AM'}\n${dateString}`;
+    // Format the time for display
+    const formattedHours = hours.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    digitalTime.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${ampm}`;
 } 
