@@ -664,8 +664,60 @@ h2::after {
 
 /* Add Clock Styles */
 .add-clock-container {
-    margin-bottom: 2rem;
+    margin-top: 2rem;
     text-align: center;
+    padding: 1rem;
+    background: rgba(13, 12, 34, 0.3);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.city-dropdown {
+    background: rgba(233, 69, 96, 0.2);
+    color: #e94560;
+    border: 1px solid rgba(233, 69, 96, 0.3);
+    padding: 0.8rem 1.5rem;
+    border-radius: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    max-width: 300px;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23e94560'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 1.5rem center;
+    background-size: 1.2em;
+}
+
+.city-dropdown:hover {
+    background: rgba(233, 69, 96, 0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.city-dropdown option {
+    background: rgba(13, 12, 34, 0.9);
+    color: white;
+    padding: 0.5rem;
+}
+
+.city-dropdown optgroup {
+    background: rgba(13, 12, 34, 0.7);
+    color: #e94560;
+    font-weight: bold;
+    padding: 0.5rem;
+}
+
+/* Responsive styles for dropdown */
+@media (max-width: 768px) {
+    .city-dropdown {
+        font-size: 0.9rem;
+        padding: 0.6rem 1rem;
+    }
 }
 
 .add-clock-btn {

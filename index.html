@@ -39,14 +39,6 @@
 
         <div class="world-clocks-container glass-panel">
             <h1>Time Zones</h1>
-            <div class="add-clock-container">
-                <button id="addClockBtn" class="add-clock-btn">+ Add Custom Clock</button>
-                <div id="addClockForm" class="add-clock-form" style="display: none;">
-                    <input type="text" id="cityName" placeholder="City Name" required>
-                    <input type="number" id="timezoneOffset" placeholder="Timezone Offset (e.g., -4)" required>
-                    <button type="submit" class="submit-clock-btn">Add Clock</button>
-                </div>
-            </div>
             <div class="clocks-grid">
                 <div class="clock-wrapper">
                     <h2>London</h2>
@@ -191,6 +183,42 @@
                     <div class="digital-time">00:00:00</div>
                     <div class="timezone">GMT+5:30</div>
                 </div>
+            </div>
+            <div class="add-clock-container">
+                <select id="cityDropdown" class="city-dropdown">
+                    <option value="">Add a City Clock</option>
+                    <optgroup label="GMT-12 to GMT-8">
+                        <option value="Honolulu,-10">Honolulu (GMT-10)</option>
+                        <option value="Anchorage,-9">Anchorage (GMT-9)</option>
+                        <option value="Los Angeles,-8">Los Angeles (GMT-8)</option>
+                    </optgroup>
+                    <optgroup label="GMT-7 to GMT-4">
+                        <option value="Denver,-7">Denver (GMT-7)</option>
+                        <option value="Chicago,-6">Chicago (GMT-6)</option>
+                        <option value="New York,-5">New York (GMT-5)</option>
+                        <option value="Santiago,-4">Santiago (GMT-4)</option>
+                    </optgroup>
+                    <optgroup label="GMT-3 to GMT+1">
+                        <option value="Rio de Janeiro,-3">Rio de Janeiro (GMT-3)</option>
+                        <option value="London,0">London (GMT+0)</option>
+                        <option value="Paris,1">Paris (GMT+1)</option>
+                    </optgroup>
+                    <optgroup label="GMT+2 to GMT+5">
+                        <option value="Cairo,2">Cairo (GMT+2)</option>
+                        <option value="Moscow,3">Moscow (GMT+3)</option>
+                        <option value="Dubai,4">Dubai (GMT+4)</option>
+                        <option value="New Delhi,5.5">New Delhi (GMT+5:30)</option>
+                    </optgroup>
+                    <optgroup label="GMT+6 to GMT+9">
+                        <option value="Bangkok,7">Bangkok (GMT+7)</option>
+                        <option value="Beijing,8">Beijing (GMT+8)</option>
+                        <option value="Tokyo,9">Tokyo (GMT+9)</option>
+                    </optgroup>
+                    <optgroup label="GMT+10 to GMT+12">
+                        <option value="Sydney,10">Sydney (GMT+10)</option>
+                        <option value="Auckland,12">Auckland (GMT+12)</option>
+                    </optgroup>
+                </select>
             </div>
         </div>
     </div>

@@ -170,4 +170,71 @@ function handleAddClock() {
 handleAddClock();
 
 // Start when the page is fully loaded
-window.addEventListener('load', initializeClocks); 
+window.addEventListener('load', initializeClocks);
+
+// Add event listener for city dropdown
+document.getElementById('cityDropdown').addEventListener('change', function(e) {
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    if (selectedOption.value) {
+        const cityName = selectedOption.text.split(' (')[0];
+        const timezone = selectedOption.value;
+        addClock(cityName, timezone);
+        // Reset dropdown to default
+        e.target.value = '';
+    }
+});
+
+// Update addClock function to handle timezone parameter
+function addClock(cityName, timezone) {
+    const clockContainer = document.createElement('div');
+    clockContainer.className = 'clock-container';
+    clockContainer.innerHTML = `
+        <div class="clock">
+            <div class="clock-face">
+                <div class="hand hour-hand"></div>
+                <div class="hand minute-hand"></div>
+                <div class="hand second-hand"></div>
+                <div class="center-dot"></div>
+            </div>
+        </div>
+        <div class="digital-time"></div>
+        <div class="city-name">${cityName}</div>
+        <button class="remove-clock" onclick="this.parentElement.remove()">×</button>
+    `;
+    
+    document.getElementById('world-clocks-container').appendChild(clockContainer);
+    
+    // Store the timezone for this clock
+    clockContainer.dataset.timezone = timezone;
+    
+    // Update the clock immediately
+    updateClock(clockContainer);
+}
+
+// Update updateClock function to handle timezone
+function updateClock(clockContainer) {
+    const now = new Date();
+    const timezone = clockContainer.dataset.timezone;
+    
+    // Convert to the selected timezone
+    const options = { timeZone: timezone };
+    const timeString = now.toLocaleTimeString('en-US', options);
+    const dateString = now.toLocaleDateString('en-US', { ...options, weekday: 'long' });
+    
+    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    
+    const hourHand = clockContainer.querySelector('.hour-hand');
+    const minuteHand = clockContainer.querySelector('.minute-hand');
+    const secondHand = clockContainer.querySelector('.second-hand');
+    const digitalTime = clockContainer.querySelector('.digital-time');
+    
+    const hourDegrees = ((hours % 12) + minutes / 60) * 30;
+    const minuteDegrees = minutes * 6;
+    const secondDegrees = seconds * 6;
+    
+    hourHand.style.transform = `rotate(${hourDegrees}deg)`;
+    minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
+    secondHand.style.transform = `rotate(${secondDegrees}deg)`;
+    
+    digitalTime.textContent = `${timeString} ${hours >= 12 ? 'PM' : 'AM'}\n${dateString}`;
+} 
