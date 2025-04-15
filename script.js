@@ -93,5 +93,81 @@ function initializeClocks() {
     updateClocks();
 }
 
+// Function to create a new clock element
+function createClockElement(cityName, timezoneOffset) {
+    const clockWrapper = document.createElement('div');
+    clockWrapper.className = 'clock-wrapper';
+    
+    const sanitizedCityName = cityName.toLowerCase().replace(/\s+/g, '');
+    
+    clockWrapper.innerHTML = `
+        <h2>${cityName}</h2>
+        <div class="clock ${sanitizedCityName}-clock">
+            <div class="hand hour-hand"></div>
+            <div class="hand minute-hand"></div>
+            <div class="hand second-hand"></div>
+            <div class="center-dot"></div>
+            <div class="number number1">1</div>
+            <div class="number number2">2</div>
+            <div class="number number3">3</div>
+            <div class="number number4">4</div>
+            <div class="number number5">5</div>
+            <div class="number number6">6</div>
+            <div class="number number7">7</div>
+            <div class="number number8">8</div>
+            <div class="number number9">9</div>
+            <div class="number number10">10</div>
+            <div class="number number11">11</div>
+            <div class="number number12">12</div>
+        </div>
+        <div class="digital-time">00:00:00</div>
+        <div class="timezone">GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}</div>
+    `;
+    
+    return clockWrapper;
+}
+
+// Function to handle adding a new clock
+function handleAddClock() {
+    const addClockBtn = document.getElementById('addClockBtn');
+    const addClockForm = document.getElementById('addClockForm');
+    const cityNameInput = document.getElementById('cityName');
+    const timezoneOffsetInput = document.getElementById('timezoneOffset');
+    const submitBtn = addClockForm.querySelector('.submit-clock-btn');
+    
+    // Toggle form visibility
+    addClockBtn.addEventListener('click', () => {
+        addClockForm.style.display = addClockForm.style.display === 'none' ? 'flex' : 'none';
+    });
+    
+    // Handle form submission
+    submitBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        
+        const cityName = cityNameInput.value.trim();
+        const timezoneOffset = parseFloat(timezoneOffsetInput.value);
+        
+        if (cityName && !isNaN(timezoneOffset)) {
+            // Add to timeZones object
+            timeZones[cityName.toLowerCase().replace(/\s+/g, '')] = timezoneOffset;
+            
+            // Create and add new clock
+            const newClock = createClockElement(cityName, timezoneOffset);
+            document.querySelector('.clocks-grid').appendChild(newClock);
+            
+            // Reset form
+            cityNameInput.value = '';
+            timezoneOffsetInput.value = '';
+            addClockForm.style.display = 'none';
+            
+            // Update transitions for new clock
+            initializeTransitions();
+        }
+    });
+}
+
+// Initialize add clock functionality
+handleAddClock();
+
 // Start when the page is fully loaded
 window.addEventListener('load', initializeClocks); 

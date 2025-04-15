@@ -39,6 +39,14 @@
 
         <div class="world-clocks-container glass-panel">
             <h1>Time Zones</h1>
+            <div class="add-clock-container">
+                <button id="addClockBtn" class="add-clock-btn">+ Add Custom Clock</button>
+                <div id="addClockForm" class="add-clock-form" style="display: none;">
+                    <input type="text" id="cityName" placeholder="City Name" required>
+                    <input type="number" id="timezoneOffset" placeholder="Timezone Offset (e.g., -4)" required>
+                    <button type="submit" class="submit-clock-btn">Add Clock</button>
+                </div>
+            </div>
             <div class="clocks-grid">
                 <div class="clock-wrapper">
                     <h2>London</h2>
