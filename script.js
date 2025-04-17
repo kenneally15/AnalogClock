@@ -41,24 +41,6 @@ function updateClocks() {
         const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
         const cityTime = new Date(utc + (3600000 * offset));
         updateClock(cityTime, city);
-        
-        // Update map marker times
-        updateMapMarker(cityTime, city);
-    }
-}
-
-// Add new function to update map markers
-function updateMapMarker(time, cityId) {
-    // Format time for map marker display
-    const displayHours = time.getHours().toString().padStart(2, '0');
-    const displayMinutes = time.getMinutes().toString().padStart(2, '0');
-    const displaySeconds = time.getSeconds().toString().padStart(2, '0');
-    const timeString = `${displayHours}:${displayMinutes}:${displaySeconds}`;
-    
-    // Find the marker for this city
-    const marker = document.querySelector(`.${cityId}-marker .marker-time`);
-    if (marker) {
-        marker.textContent = timeString;
     }
 }
 
@@ -109,44 +91,29 @@ function initializeClocks() {
     
     // Initial call to set correct positions
     updateClocks();
-    
-    // Add interactive features to map markers
-    setupMapMarkerInteractions();
 }
 
-// Add map marker interactions
-function setupMapMarkerInteractions() {
-    const mapMarkers = document.querySelectorAll('.map-marker');
-    
-    mapMarkers.forEach(marker => {
-        const city = marker.getAttribute('data-city');
-        
-        marker.addEventListener('mouseenter', () => {
-            // Highlight the corresponding clock
-            const clockElement = document.querySelector(`.${city}-clock`);
-            if (clockElement) {
-                clockElement.classList.add('highlight-clock');
-                
-                // Scroll to the clock if it's out of view
-                clockElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-        
-        marker.addEventListener('mouseleave', () => {
-            // Remove highlight
-            const clockElement = document.querySelector(`.${city}-clock`);
-            if (clockElement) {
-                clockElement.classList.remove('highlight-clock');
-            }
-        });
-    });
-}
+// Start when the page is fully loaded
+window.addEventListener('load', initializeClocks);
 
-// Function to create a new clock element
-function createClockElement(cityName, timezoneOffset) {
+// Add event listener for city dropdown
+document.getElementById('cityDropdown').addEventListener('change', function(e) {
+    const selectedOption = e.target.options[e.target.selectedIndex];
+    if (selectedOption.value) {
+        const cityName = selectedOption.text.split(' (')[0];
+        const timezone = selectedOption.value;
+        addClock(cityName, timezone);
+        // Reset dropdown to default
+        e.target.value = '';
+    }
+});
+
+// Update addClock function to handle timezone parameter
+function addClock(cityName, timezone) {
     const clockWrapper = document.createElement('div');
     clockWrapper.className = 'clock-wrapper';
     
+    // Create a sanitized version of the city name for CSS classes
     const sanitizedCityName = cityName.toLowerCase().replace(/\s+/g, '');
     
     clockWrapper.innerHTML = `
@@ -170,113 +137,37 @@ function createClockElement(cityName, timezoneOffset) {
             <div class="number number12">12</div>
         </div>
         <div class="digital-time">00:00:00</div>
-        <div class="timezone">GMT${timezoneOffset >= 0 ? '+' : ''}${timezoneOffset}</div>
-    `;
-    
-    return clockWrapper;
-}
-
-// Function to handle adding a new clock
-function handleAddClock() {
-    const addClockBtn = document.getElementById('addClockBtn');
-    const addClockForm = document.getElementById('addClockForm');
-    const cityNameInput = document.getElementById('cityName');
-    const timezoneOffsetInput = document.getElementById('timezoneOffset');
-    const submitBtn = addClockForm.querySelector('.submit-clock-btn');
-    
-    // Toggle form visibility
-    addClockBtn.addEventListener('click', () => {
-        addClockForm.style.display = addClockForm.style.display === 'none' ? 'flex' : 'none';
-    });
-    
-    // Handle form submission
-    submitBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-        
-        const cityName = cityNameInput.value.trim();
-        const timezoneOffset = parseFloat(timezoneOffsetInput.value);
-        
-        if (cityName && !isNaN(timezoneOffset)) {
-            // Add to timeZones object
-            timeZones[cityName.toLowerCase().replace(/\s+/g, '')] = timezoneOffset;
-            
-            // Create and add new clock
-            const newClock = createClockElement(cityName, timezoneOffset);
-            document.querySelector('.clocks-grid').appendChild(newClock);
-            
-            // Reset form
-            cityNameInput.value = '';
-            timezoneOffsetInput.value = '';
-            addClockForm.style.display = 'none';
-            
-            // Update transitions for new clock
-            initializeTransitions();
-        }
-    });
-}
-
-// Initialize add clock functionality
-handleAddClock();
-
-// Start when the page is fully loaded
-window.addEventListener('load', initializeClocks);
-
-<<<<<<< HEAD
-// Add event listener for city dropdown
-document.getElementById('cityDropdown').addEventListener('change', function(e) {
-    const selectedOption = e.target.options[e.target.selectedIndex];
-    if (selectedOption.value) {
-        const cityName = selectedOption.text.split(' (')[0];
-        const timezone = selectedOption.value;
-        addClock(cityName, timezone);
-        // Reset dropdown to default
-        e.target.value = '';
-    }
-});
-
-// Update addClock function to handle timezone parameter
-function addClock(cityName, timezone) {
-    const clockContainer = document.createElement('div');
-    clockContainer.className = 'clock-container';
-    clockContainer.innerHTML = `
-        <div class="clock">
-            <div class="clock-face">
-                <div class="hand hour-hand"></div>
-                <div class="hand minute-hand"></div>
-                <div class="hand second-hand"></div>
-                <div class="center-dot"></div>
-            </div>
-        </div>
-        <div class="digital-time"></div>
-        <div class="city-name">${cityName}</div>
+        <div class="timezone">GMT${timezone >= 0 ? '+' : ''}${timezone}</div>
         <button class="remove-clock" onclick="this.parentElement.remove()">×</button>
     `;
     
-    document.getElementById('world-clocks-container').appendChild(clockContainer);
-    
     // Store the timezone for this clock
-    clockContainer.dataset.timezone = timezone;
+    clockWrapper.dataset.timezone = timezone;
+    
+    // Add the new clock to the clocks grid
+    document.querySelector('.clocks-grid').appendChild(clockWrapper);
     
     // Update the clock immediately
-    updateClock(clockContainer);
+    updateClock(clockWrapper);
 }
 
 // Update updateClock function to handle timezone
-function updateClock(clockContainer) {
+function updateClock(clockWrapper) {
     const now = new Date();
-    const timezone = clockContainer.dataset.timezone;
+    const timezone = clockWrapper.dataset.timezone;
     
-    // Convert to the selected timezone
-    const options = { timeZone: timezone };
-    const timeString = now.toLocaleTimeString('en-US', options);
-    const dateString = now.toLocaleDateString('en-US', { ...options, weekday: 'long' });
+    // Calculate the time for the selected timezone
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const cityTime = new Date(utc + (3600000 * timezone));
     
-    const [hours, minutes, seconds] = timeString.split(':').map(Number);
+    const hours = cityTime.getHours();
+    const minutes = cityTime.getMinutes();
+    const seconds = cityTime.getSeconds();
     
-    const hourHand = clockContainer.querySelector('.hour-hand');
-    const minuteHand = clockContainer.querySelector('.minute-hand');
-    const secondHand = clockContainer.querySelector('.second-hand');
-    const digitalTime = clockContainer.querySelector('.digital-time');
+    const hourHand = clockWrapper.querySelector('.hour-hand');
+    const minuteHand = clockWrapper.querySelector('.minute-hand');
+    const secondHand = clockWrapper.querySelector('.second-hand');
+    const digitalTime = clockWrapper.querySelector('.digital-time');
     
     const hourDegrees = ((hours % 12) + minutes / 60) * 30;
     const minuteDegrees = minutes * 6;
@@ -286,48 +177,11 @@ function updateClock(clockContainer) {
     minuteHand.style.transform = `rotate(${minuteDegrees}deg)`;
     secondHand.style.transform = `rotate(${secondDegrees}deg)`;
     
-    digitalTime.textContent = `${timeString} ${hours >= 12 ? 'PM' : 'AM'}\n${dateString}`;
-} 
-=======
-// Update map marker times
-function updateMapMarkers() {
-    const cities = ['london', 'newyork', 'sanfrancisco', 'tokyo', 'beijing', 'newdelhi'];
-    cities.forEach(city => {
-        const marker = document.querySelector(`.${city}-marker`);
-        if (marker) {
-            const timeElement = marker.querySelector('.marker-time');
-            const time = getCityTime(city);
-            timeElement.textContent = time;
-        }
-    });
+    // Format the time for display
+    const formattedHours = hours.toString().padStart(2, '0');
+    const formattedMinutes = minutes.toString().padStart(2, '0');
+    const formattedSeconds = seconds.toString().padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    
+    digitalTime.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${ampm}`;
 }
-
-// Add hover effects for map markers
-function setupMapMarkerInteractions() {
-    const markers = document.querySelectorAll('.map-marker');
-    markers.forEach(marker => {
-        const city = marker.dataset.city;
-        
-        marker.addEventListener('mouseenter', () => {
-            const clock = document.querySelector(`.${city}-clock`);
-            if (clock) {
-                clock.classList.add('highlight-clock');
-                clock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        });
-        
-        marker.addEventListener('mouseleave', () => {
-            const clock = document.querySelector(`.${city}-clock`);
-            if (clock) {
-                clock.classList.remove('highlight-clock');
-            }
-        });
-    });
-}
-
-// Initialize map functionality
-setupMapMarkerInteractions();
-
-// Update map markers every second
-setInterval(updateMapMarkers, 1000); 
->>>>>>> parent of 66848b1 (Removed map)
