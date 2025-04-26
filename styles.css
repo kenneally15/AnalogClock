@@ -567,6 +567,93 @@ h2::after {
 }
 
 /* Remove add clock styles */
+.add-clock-container,
+.add-city-btn,
+.city-form,
+.city-input,
+.timezone-input,
+.submit-city-btn {
+    display: none;
+}
+
+/* Add floating particles */
+.particles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    animation: float linear infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-1000px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* World Map Styles */
+.map-container {
+    display: none;
+}
+
+.world-map {
+    display: none;
+}
+
+.map-marker {
+    display: none;
+}
+
+.pulse {
+    display: none;
+}
+
+.marker-time, .marker-label {
+    display: none;
+}
+
+/* Remove city marker positions */
+.london-marker,
+.newyork-marker,
+.sanfrancisco-marker,
+.tokyo-marker,
+.beijing-marker,
+.newdelhi-marker {
+    display: none;
+}
+
+/* Remove responsive map styles */
+@media (max-width: 768px) {
+    .world-map {
+        display: none;
+    }
+    
+    .marker-time, .marker-label {
+        display: none;
+    }
+}
+
+@media (max-width: 576px) {
+    .world-map {
+        display: none;
+    }
+}
+
+/* Remove add clock styles */
 .add-clock-container {
     display: none;
 }
