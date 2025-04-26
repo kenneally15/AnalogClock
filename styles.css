@@ -655,21 +655,6 @@ h2::after {
 
 /* Remove add clock styles */
 .add-clock-container {
-    display: none;
-}
-
-.city-dropdown {
-    display: none;
-}
-
-/* Remove responsive styles for dropdown */
-@media (max-width: 768px) {
-    .city-dropdown {
-        display: none;
-    }
-}
-
-.add-clock-container {
     margin-top: 2rem;
     text-align: center;
     padding: 1rem;
